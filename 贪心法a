@@ -1,0 +1,27 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#define N 10005
+int cmp(const void*a, const void*b) {
+	return *(int*)a - *(int*)b;
+}
+int main()
+{
+	char ch;
+	int n[26];
+	memset(n, 0, sizeof(n));
+	while ((ch = getchar() )!= '\n')
+	{
+		int l = ch - 'A';
+		if (l >= 32)l -= 32;
+		n[l]++;
+	}
+	qsort(n, 26, sizeof(int), cmp);
+	int answer=0;
+	for (int i = 0; i <=25; i++)
+	{
+		answer += (n[i] * (i+1));
+	}
+	printf("%d\n", answer);
+    return 0;
+}
