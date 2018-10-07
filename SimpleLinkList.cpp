@@ -19,6 +19,60 @@ node<ElemType>*SimpleLinkList<ElemType>::GetElemPtr(int position)const {
 		return NULL;
 	}
 }
+/*template<class ElemType>
+node<ElemType>*SimpleLinkList<ElemType>::Max()const {
+	node<ElemType> *tmpPtr = head;
+	node<ElemType> max = head->next->data;//第一个设为最大值
+	node<ElemType> maxPtr = head->next;//最大值的地址附在第一个上
+	int curPosition = 0;
+	while (tmpPtr != NULL && curPosition < Length())
+	{
+		tmpPtr = tmpPtr->next;
+		curPosition++;
+		if (max < tmpPtr->data)
+		{
+			max = tmpPtr->data;
+			maxPtr = tmpPtr;
+		}
+	}
+	return maxPtr;
+}*/
+/*template<class ElemType>
+int SimpleLinkList<ElemType>::number(const ElemType &e)const
+{
+	node<ElemType> *tmpPtr = head;
+	int count = 0;
+	while (tmpPtr != NULL)
+	{
+		if (tmpPtr->data == e)
+			count++;
+	}
+	return count;
+}*/
+/*template<class ElemType>
+void SimpleLinkList<ElemType>::create(ElemType a[], int n)const
+{//根据一维数组来创建一个单链表
+	head = new node<ElemType>;
+	node<ElemType> *tmpPtr = new node<ElemType>(a[n - 1], NULL);
+	for (int i = n-2; i>=0; i--) {//从末位向前创建单链表可以实现时间复杂度为0(n)
+		tmpPtr = new node<ElemType>(a[i], tmpPtr);
+	}
+	head->next = tmpPtr;
+}*/
+/*template<class ElemType>
+void SimpleLinkList<ElemType>::tidyup()
+{
+	node<ElemType> *tmpPtr = head;
+	while (tmpPtr != NULL) {
+		tmpPtr = tmpPtr->next;
+		if (tmpPtr->data == tmpPtr->next->data)//若与后面的相等则应该删去
+		{
+			node<ElemType> *nextPtr = tmpPtr->next;
+			tmpPtr->next = nextPtr->next;//删除结点
+			delete nextPtr;//释放结点
+		}
+	}
+}*/
 template<class ElemType>
 void SimpleLinkList<ElemType>::Init()//初始化线性表
 {

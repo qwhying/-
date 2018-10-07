@@ -8,7 +8,11 @@ protected:
 	node<ElemType> *head;      //头节点指针
 	//辅助函数模板
 	node<ElemType> *GetElemPtr(int position)const;//返回指向第position个节点的指针
+//	node<ElemType> *Max()const;
+//	int number(const ElemType &e)const;
 	void Init();
+//	void create(ElemType a[],int n)const;
+//	void tidyup();
 public:
 	SimpleLinkList();             //无参构造函数模板
 	virtual ~SimpleLinkList();            //析构函数模板
