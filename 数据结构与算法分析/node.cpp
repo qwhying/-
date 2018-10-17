@@ -1,5 +1,5 @@
 #include "node.h"
-#include<stdio.h>
+
 
 template<class ElemType>
 node<ElemType>::node()
@@ -7,7 +7,7 @@ node<ElemType>::node()
 	next = NULL;
 }
 template<class ElemType>
-node<ElemType>::node(ElemType item, node<ElemType>* link)
+node<ElemType>::node(ElemType item, node<ElemType> *link =NULL)
 {
 	data = item;
 	next = link;
