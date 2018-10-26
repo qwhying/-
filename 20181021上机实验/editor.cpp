@@ -22,6 +22,8 @@ void editor::OpenFile(string file_name)
 	{
 		cout << "无法打开文件" <<file_name<< endl;
 		cout << "程序终止" << endl;
+		getchar();
+		getchar();
 		exit(EXIT_FAILURE);
 	}
 	else
@@ -75,7 +77,7 @@ void editor::ToTheDesignatedLine(int whichline)
 }
 void editor::InsertAline(int numberofline, string newline)
 {
-	if (numberofline > totallines || numberofline < 1)
+	if (numberofline > totallines+1 || numberofline < 1)
 	{
 		cout << "您输入的行数不存在，请重新输入" << endl;
 		cout << "请输入1到" << totallines << "之间的一个数" << endl;
@@ -84,6 +86,7 @@ void editor::InsertAline(int numberofline, string newline)
 	{
 		curline = numberofline;
 		text->Insert(curline, newline);
+	    totallines++;
 	}
 }
 void editor::DeleteAline(int numberofline)
@@ -101,6 +104,7 @@ void editor::DeleteAline(int numberofline)
 		curline--;
 		cout << "您已删除第" << numberofline << "行，当前行为" << curline << endl;
 		cout << "您删除的内容是:" << endl << deleteline << endl;
+		totallines--;
 	}
 }
 void editor::Count(int &lines, int &words)
@@ -135,13 +139,17 @@ void editor::SaveFile()
 	}
 	else 
 	{
-		for (int i = 1; i <= totallines; i++)
+		for (int i = 1; i <=totallines; i++)
 		{
 			string tmpline;
 			text->GetElem(i, tmpline);
 			outfile << tmpline << endl;
 		}
-		text->Clear();
+		/*string tmpline;
+		text->GetElem(totallines, tmpline);
+		for (int i = 0; i < tmpline.length(); i++)
+			outfile.put(tmpline[i]);*/
+		//text->Clear();
 		cout << "保存文件成功！！" << endl;
 	}
 }
@@ -172,6 +180,8 @@ void editor::Exit()
 }
 void editor::ReReadFile()
 {
+	curline = 0;
+	totallines = 0;
 	infile.close();
 	infile.open(filename);
 	if (!infile.is_open())

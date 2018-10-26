@@ -61,11 +61,13 @@ int main()
 			default:
 				break;
 			}
+			break;
 		}
 		case 'i':
 		{
 			int whichline;
 			cin >> whichline;
+			getchar();
 			string newline;
 			getline(cin, newline);
 			a.InsertAline(whichline, newline);
