@@ -18,7 +18,7 @@ Calculater::~Calculater()
 	OPTR.Clear();
 }
 
-int Calculater::icp(char op)
+int Calculater::icp(char op)//定义运算符的优先级（栈外）
 {
 	switch (op)
 	{
@@ -46,7 +46,7 @@ int Calculater::icp(char op)
 	}
 
 }
-int Calculater::isp(char op)
+int Calculater::isp(char op)//定义运算符的优先级（栈内）
 {
 	switch (op)
 	{
@@ -73,7 +73,7 @@ int Calculater::isp(char op)
 		break;
 	}
 }
-double Calculater::DoOperator(double x, char op, double y)
+double Calculater::DoOperator(double x, char op, double y)//进行运算
 {
 	switch (op) {
 	case '+':return x + y;
@@ -95,7 +95,7 @@ double Calculater::DoOperator(double x, char op, double y)
 			break;
 	}
 }*/
-bool Calculater::IsOperator(char ch)
+bool Calculater::IsOperator(char ch)//判断是否是一个有效的运算符
 {
 	return (ch == '+' || ch == '-' || ch == '*' || ch == '/'||ch=='('||ch==')'||ch=='=');
 }
