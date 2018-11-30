@@ -32,7 +32,7 @@ void editor::OpenFile(string file_name)
 		string line;
 		while (infile.good())
 		{
-			getline(infile, line);
+			getline(infile, line);//按行读取，每次读一行
 			text->Insert(++totallines, line);
 			curline++;
 		}
