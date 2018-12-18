@@ -1,0 +1,7 @@
+﻿  main.cpp
+d:\homework\2018数据结构\topological-sort\topological-sort\main.cpp(53): warning C4018: “<”: 有符号/无符号不匹配
+d:\homework\2018数据结构\topological-sort\topological-sort\main.cpp(59): warning C4018: “<”: 有符号/无符号不匹配
+d:\homework\2018数据结构\topological-sort\topological-sort\main.cpp(61): warning C4018: “<”: 有符号/无符号不匹配
+d:\homework\2018数据结构\topological-sort\topological-sort\main.cpp(85): warning C4018: “>=”: 有符号/无符号不匹配
+d:\homework\2018数据结构\topological-sort\topological-sort\main.cpp(203): warning C4018: “<”: 有符号/无符号不匹配
+  topological-sort.vcxproj -> D:\homework\2018数据结构\topological-sort\Debug\topological-sort.exe
