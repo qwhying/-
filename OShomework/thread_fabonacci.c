@@ -3,9 +3,6 @@
 #include<stdlib.h>
 #include<pthread.h>
 #define MAX_SPACE 100
-/*int fibo[MAX_SPACE];
-    fibo[0]=(int)0;
-    fibo[1]=(int)1;*/
  typedef struct Data{
      int num; //斐波那契数列的项数
      int fibo[MAX_SPACE];//最大容量，斐波那契数列
