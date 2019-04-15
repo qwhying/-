@@ -1,0 +1,4 @@
+﻿  thread_win.cpp
+d:\github\school-work\oshomework\20190415\20190415\thread_win.cpp(36): warning C4101: “a_thread”: 未引用的局部变量
+d:\github\school-work\oshomework\20190415\20190415\thread_win.cpp(35): warning C4101: “i”: 未引用的局部变量
+  20190415.vcxproj -> D:\Github\school-work\OShomework\20190415\Debug\20190415.exe
