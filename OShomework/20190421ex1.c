@@ -90,10 +90,10 @@ int main(void)
     pthread_cancel(&id_s);
     pthread_cancel(&id_d);*/
 
-    pthread_join(&id_f,NULL);
-    pthread_join(&id_m,NULL);
-    pthread_join(&id_s,NULL);
-    pthread_join(&id_d,NULL);
+    pthread_join(id_f,NULL);
+    pthread_join(id_m,NULL);
+    pthread_join(id_s,NULL);
+    pthread_join(id_d,NULL);
 
     sem_destroy(&apple);
     sem_destroy(&orange);
