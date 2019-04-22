@@ -1,0 +1,15 @@
+
+*.ipch
+*.bin
+OShomework/20190422ex2/.vs/20190422ex2/v15/.suo
+*.db
+*.sln
+*.vcxproj
+*.filters
+*.user
+*.log
+*.lastbuildstate
+*.tlog
+*.idb
+*.pdb
+*.ilk
