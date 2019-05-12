@@ -59,10 +59,41 @@ void free(void * ptr)
 
 	struct block * prev = (struct block *) &free_list;
 	struct block * cur = free_list;
-	char * curn; // 和cur物理上相邻的下一个block的地址
+	char * curn = (char*)cur + sizeof(struct block) + cur->length; // 和cur物理上相邻的下一个block的地址
 
 	// 考虑多种情况，完成free函数
 	// ... ...
+	bool combined = 0;
+	while (cur != NULL)
+	{
+		char * curn = (char*)cur + sizeof(struct block) + cur->length;
+	    if (curn == (char*)temp)//待释放的上一个是空闲块
+	    {
+		    //cur->next = temp->next;
+		    temp->length = cur->length + sizeof(struct block) + temp->length;
+		    combined = 1;
+			prev->next = temp;
+		    cur = cur->next;
+	    }
+		else if (cur == (struct block *)tempn)//待释放的下一个是空闲块
+		{
+			//cur->next=temp->next;
+			temp->next = cur->next;
+			temp->length = curn - (char*)ptr;
+			prev->next = temp;
+			combined = 1;
+			cur=cur->next;//当前指针指向temp的起始位置
+		}
+		else {
+			prev = cur;
+			cur = cur->next;
+		}
+	}
+	if (!combined)
+	{
+		prev->next = temp;
+		temp->next = NULL;
+	}
 }
 
 void malloc_state(void)
