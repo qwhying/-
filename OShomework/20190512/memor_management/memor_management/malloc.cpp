@@ -69,11 +69,29 @@ void free(void * ptr)
 		char * curn = (char*)cur + sizeof(struct block) + cur->length;
 	    if (curn == (char*)temp)//待释放的上一个是空闲块
 	    {
-		    //cur->next = temp->next;
-		    temp->length = cur->length + sizeof(struct block) + temp->length;
+		    cur->length = cur->length + sizeof(struct block) + temp->length;
 		    combined = 1;
-			prev->next = temp;
-		    cur = cur->next;
+			prev->next = cur;
+			prev= (struct block *) &free_list;
+			cur = free_list;
+			while (cur != NULL)
+			{
+				char * curn = (char*)cur + sizeof(struct block) + cur->length;
+				if (cur == (struct block *)tempn)
+				{
+					temp->next = cur->next;
+					temp->length = curn - (char*)ptr;
+					prev->next = temp;
+					prev = cur;
+					cur = cur->next;
+				}
+				else
+				{
+					prev = cur;
+					cur = cur->next;
+				}
+			}
+			break;
 	    }
 		else if (cur == (struct block *)tempn)//待释放的下一个是空闲块
 		{
@@ -82,7 +100,27 @@ void free(void * ptr)
 			temp->length = curn - (char*)ptr;
 			prev->next = temp;
 			combined = 1;
-			cur=cur->next;//当前指针指向temp的起始位置
+			prev = (struct block *) &free_list;
+			cur = free_list;
+			while (cur != NULL)
+			{
+				char * curn = (char*)cur + sizeof(struct block) + cur->length;
+				if (curn == (char*)temp)//待释放的上一个是空闲块
+				{
+					cur->length = cur->length + sizeof(struct block) + temp->length;
+					//prev->next = cur;
+					temp->next = NULL;
+					if (prev == free_list) free_list = cur;
+					prev = cur;
+					cur = cur->next;
+				}
+				else
+				{
+					prev = cur;
+					cur = cur->next;
+				}
+			}
+			break;
 		}
 		else {
 			prev = cur;
