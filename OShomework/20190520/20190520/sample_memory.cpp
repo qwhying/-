@@ -142,9 +142,9 @@ void mem_test(void)
 {
 	char temp;
 	mem_state();
-	for (int i = 0; i < RAM_SIZE; i++)
+	for (int i = RAM_SIZE; i < MEM_SIZE; i++)
 	{
-		mem_write(i,'a'+i);
+		mem_write(i,'a'+i-RAM_SIZE);
 	}
 	mem_state();
 	mem_read(RAM_SIZE, &temp);
@@ -152,6 +152,8 @@ void mem_test(void)
 	mem_state();
 	mem_write(19, 2);
 	mem_write(23, 50);
+	mem_state();
+	mem_read(17, &temp);
 	mem_state();
 
 }
