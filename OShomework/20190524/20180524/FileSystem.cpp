@@ -19,7 +19,7 @@ bool createFile(const char* vFileName, int vDirInodeNum, char FileType, int vFil
 	{	
 		SBitMap InodeBitMap; 
 		createEmptyBitMap(InodeBitMap, g_NumInodes);
-		memcpy(InodeBitMap.pMapData, g_Disk+g_BlockBitMapSize, g_InodeBitMapSize);            //´ÓĞéÄâÓ²ÅÌÖĞ¶ÁÈ¡InodeÎ»Ê¾Í¼
+		memcpy(InodeBitMap.pMapData, g_Disk+g_BlockBitMapSize, g_InodeBitMapSize);            //ä»è™šæ‹Ÿç¡¬ç›˜ä¸­è¯»å–Inodeä½ç¤ºå›¾
 
 		int InodeIndex = findAndSetAvailableBit(InodeBitMap);
 		if (InodeIndex == -1) IsSuccess = false;
@@ -29,7 +29,7 @@ bool createFile(const char* vFileName, int vDirInodeNum, char FileType, int vFil
 			
 			SBitMap DataBlockBitMap;
 			createEmptyBitMap(DataBlockBitMap, g_NumBlocks);
-			memcpy(DataBlockBitMap.pMapData, g_Disk, g_BlockBitMapSize);                      //´ÓĞéÄâÓ²ÅÌ¶ÁÈ¡Êı¾İ¿éÎ»Ê¾Í¼
+			memcpy(DataBlockBitMap.pMapData, g_Disk, g_BlockBitMapSize);                      //ä»è™šæ‹Ÿç¡¬ç›˜è¯»å–æ•°æ®å—ä½ç¤ºå›¾
 
 			SInode TempInode;
 			if (!allocateDisk(TempInode, vFileSize, DataBlockBitMap)) IsSuccess =  false;	
@@ -37,9 +37,9 @@ bool createFile(const char* vFileName, int vDirInodeNum, char FileType, int vFil
 			{
 				printf("Creating file %s(type:%c) size %d at %s\n", vFileName, FileType, vFileSize, TempDirectory.FileName);
 				TempInode.FileType = FileType;
-				saveInode2Disk(TempInode, InodeIndex);                                       //½«InodeĞÅÏ¢Ğ´»ØĞéÄâÓ²ÅÌ
-				memcpy(g_Disk, DataBlockBitMap.pMapData, g_BlockBitMapSize);                 //½«Êı¾İ¿éÎ»Ê¾Í¼Ğ´»ØĞéÄâÓ²ÅÌ
-				memcpy(g_Disk+g_BlockBitMapSize, InodeBitMap.pMapData, g_InodeBitMapSize);   //½«InodeÎ»Ê¾Í¼Ğ´»ØĞéÄâÓ²ÅÌ
+				saveInode2Disk(TempInode, InodeIndex);                                       //å°†Inodeä¿¡æ¯å†™å›è™šæ‹Ÿç¡¬ç›˜
+				memcpy(g_Disk, DataBlockBitMap.pMapData, g_BlockBitMapSize);                 //å°†æ•°æ®å—ä½ç¤ºå›¾å†™å›è™šæ‹Ÿç¡¬ç›˜
+				memcpy(g_Disk+g_BlockBitMapSize, InodeBitMap.pMapData, g_InodeBitMapSize);   //å°†Inodeä½ç¤ºå›¾å†™å›è™šæ‹Ÿç¡¬ç›˜
 				saveDirectory2Disk(vDirInodeNum, TempDirectory);
 				if (FileType == 'd')
 				{
@@ -59,21 +59,21 @@ bool removeFile(const char* vFileName, int vDirInodeNum)
 {
 	SDirectory TempDirectory = loadDirectoryFromDisk(vDirInodeNum);
 
-	//...       ´ÓÄ¿Â¼ÖĞÕÒµ½ÎÄ¼ş¶ÔÓ¦µÄInode±àºÅ£¬¸ù¾İInode±àºÅ¶Á³öInodeÊı¾İ£¬Íê³ÉÎÄ¼şµÄÉ¾³ı
+	//...       ä»ç›®å½•ä¸­æ‰¾åˆ°æ–‡ä»¶å¯¹åº”çš„Inodeç¼–å·ï¼Œæ ¹æ®Inodeç¼–å·è¯»å‡ºInodeæ•°æ®ï¼Œå®Œæˆæ–‡ä»¶çš„åˆ é™¤
 	
 	removeFileFromDirectory(vFileName, TempDirectory);
-	saveDirectory2Disk(vDirInodeNum, TempDirectory);                          //½«Ä¿Â¼ÄÚÈİÖØĞÂĞ´»ØĞéÄâÓ²ÅÌ
+	saveDirectory2Disk(vDirInodeNum, TempDirectory);                          //å°†ç›®å½•å†…å®¹é‡æ–°å†™å›è™šæ‹Ÿç¡¬ç›˜
 	return true;
 }
 
 SDirectory loadDirectoryFromDisk(int vDirInodeNum)
 {
-	return g_RootDir;        //ÕâÀïÏÈÓÃÈ«¾Ö±äÁ¿±£´æDir£¬µÈÊµÏÖÁËÎÄ¼ş¶ÁĞ´ÔÙÀ´Íê³É
+	return g_RootDir;        //è¿™é‡Œå…ˆç”¨å…¨å±€å˜é‡ä¿å­˜Dirï¼Œç­‰å®ç°äº†æ–‡ä»¶è¯»å†™å†æ¥å®Œæˆ
 }
 
 void saveDirectory2Disk(int vDirInodeNum, const SDirectory& vDirectory)
 {
-	g_RootDir = vDirectory;   //ÕâÀïÒ²ÊÇÓÃÈ«¾ÖµÄ±äÁ¿±£´æÄ¿Â¼£¬µÈÊµÏÖÁËÎÄ¼ş¶ÁĞ´ÔÙÀ´Íê³É
+	g_RootDir = vDirectory;   //è¿™é‡Œä¹Ÿæ˜¯ç”¨å…¨å±€çš„å˜é‡ä¿å­˜ç›®å½•ï¼Œç­‰å®ç°äº†æ–‡ä»¶è¯»å†™å†æ¥å®Œæˆ
 }
 
 void formatDisk()
@@ -81,22 +81,22 @@ void formatDisk()
 	memset(g_Disk, 0, g_DiskSize);
 
 	SBitMap InodeDiskBitMap;
-	createEmptyBitMap(InodeDiskBitMap, g_NumInodes);                                   //´´½¨InodeÎ»Ê¾Í¼
-	markBitAt(0, InodeDiskBitMap);                                                     //ÎªÄ¿Â¼·ÖÅäInode£¬Ä¬ÈÏÎªµÚ0¸öInode
-	memcpy(g_Disk+g_BlockBitMapSize, InodeDiskBitMap.pMapData, g_InodeBitMapSize);     //½«InodeÎ»Ê¾Í¼Ğ´»ØĞéÄâÓ²ÅÌ
+	createEmptyBitMap(InodeDiskBitMap, g_NumInodes);                                   //åˆ›å»ºInodeä½ç¤ºå›¾
+	markBitAt(0, InodeDiskBitMap);                                                     //ä¸ºç›®å½•åˆ†é…Inodeï¼Œé»˜è®¤ä¸ºç¬¬0ä¸ªInode
+	memcpy(g_Disk+g_BlockBitMapSize, InodeDiskBitMap.pMapData, g_InodeBitMapSize);     //å°†Inodeä½ç¤ºå›¾å†™å›è™šæ‹Ÿç¡¬ç›˜
 	delete InodeDiskBitMap.pMapData;
 
 	SBitMap DataBlockBitMap;
-	createEmptyBitMap(DataBlockBitMap, g_NumBlocks);                                   //´´½¨Êı¾İ¿éÎ»Ê¾Í¼
+	createEmptyBitMap(DataBlockBitMap, g_NumBlocks);                                   //åˆ›å»ºæ•°æ®å—ä½ç¤ºå›¾
 
-	SDirectory Directory = createEmptyDirectory();                                     //´´½¨¸ùÄ¿Â¼
+	SDirectory Directory = createEmptyDirectory();                                     //åˆ›å»ºæ ¹ç›®å½•
 	strcpy(Directory.FileName, "/");
 	SInode DirInode;
 	DirInode.FileType  = 'd';
-	allocateDisk(DirInode, sizeof(SDirectory), DataBlockBitMap);                       //·ÖÅä¸ùÄ¿Â¼Êı¾İ¿é
+	allocateDisk(DirInode, sizeof(SDirectory), DataBlockBitMap);                       //åˆ†é…æ ¹ç›®å½•æ•°æ®å—
 	
-	memcpy(g_Disk + g_BlockBitMapSize + g_InodeBitMapSize, &DirInode, sizeof(SInode)); //½«Ä¿Â¼InodeĞÅÏ¢Ğ´»Ø                               //½«InodeĞÅÏ¢Ğ´»ØĞéÄâÓ²ÅÌ
-	memcpy(g_Disk, DataBlockBitMap.pMapData, g_BlockBitMapSize);                       //½«Êı¾İ¿éÎ»Ê¾Í¼Ğ´»ØĞéÄâÓ²ÅÌ
+	memcpy(g_Disk + g_BlockBitMapSize + g_InodeBitMapSize, &DirInode, sizeof(SInode)); //å°†ç›®å½•Inodeä¿¡æ¯å†™å›                               //å°†Inodeä¿¡æ¯å†™å›è™šæ‹Ÿç¡¬ç›˜
+	memcpy(g_Disk, DataBlockBitMap.pMapData, g_BlockBitMapSize);                       //å°†æ•°æ®å—ä½ç¤ºå›¾å†™å›è™šæ‹Ÿç¡¬ç›˜
 	delete DataBlockBitMap.pMapData;
 
 	saveDirectory2Disk(0, Directory);
@@ -118,7 +118,9 @@ bool allocateDisk(SInode& voInode, int vFileSize, SBitMap& vioBlockBitMap)
 
 void deallocateDisk(const SInode& vInode, SBitMap& vioCBitMap)
 {
-	//»ØÊÕ´ÅÅÌ¿é
+	//å›æ”¶ç£ç›˜å—
+	for(int i=0;i<vInode.NumBlocks;i++) 
+		clearBitAt(vInode.BlockNums[i],vioCBitMap);
 }
 
 SInode loadInodeFromDisk(int vInodeNum)
