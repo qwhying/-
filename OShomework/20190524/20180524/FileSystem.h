@@ -16,7 +16,7 @@ const int g_BlockBitMapSize = ((g_NumBlocks+g_NumBitsInWord-1) / g_NumBitsInWord
 
 struct SInode
 {
-	char FileType;                    //'f'±íÊ¾Ò»°ãÎÄ¼ş£¬'d'±íÊ¾Ä¿Â¼ÎÄ¼ş
+	char FileType;                    //'f'è¡¨ç¤ºä¸€èˆ¬æ–‡ä»¶ï¼Œ'd'è¡¨ç¤ºç›®å½•æ–‡ä»¶
 	short FileSize;
 	short NumBlocks;
 	short NumLinks;
@@ -26,7 +26,7 @@ struct SInode
 struct SOpenFile
 {
 	short InodeNum;	
-	int CurSeekPos;                  //´æ´¢µ±Ç°¶ÁĞ´µÄÎ»ÖÃ
+	int CurSeekPos;                  //å­˜å‚¨å½“å‰è¯»å†™çš„ä½ç½®
 	SInode Inode;
 };
 
@@ -36,8 +36,8 @@ extern char g_Disk[g_DiskSize];
 bool createFile(const char* vFileName, int vDirInodeNum, char FileType='d', int vFileSize=sizeof(SDirectory));
 bool removeFile(const char* vFileName, int vDirInodeNum);
 
-bool allocateDisk(SInode& voInode, int fileSize, SBitMap& vioBlockBitMap);   //¸ù¾İÎÄ¼ş´óĞ¡ºÍBitMap·ÖÅä´ÅÅÌ
-void deallocateDisk(const SInode& vInode, SBitMap& vioBlockBitMap);          //¸ù¾İÎÄ¼şINode»ØÊÕ´ÅÅÌ
+bool allocateDisk(SInode& voInode, int fileSize, SBitMap& vioBlockBitMap);   //æ ¹æ®æ–‡ä»¶å¤§å°å’ŒBitMapåˆ†é…ç£ç›˜
+void deallocateDisk(const SInode& vInode, SBitMap& vioBlockBitMap);          //æ ¹æ®æ–‡ä»¶INodeå›æ”¶ç£ç›˜
 void saveInode2Disk(const SInode& vInode, int vInodeNum);
 SInode loadInodeFromDisk(int vInodeNum);
 

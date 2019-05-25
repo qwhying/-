@@ -4,7 +4,7 @@
 const short g_MaxNumFiles    = 10;
 const short g_MaxFileNameLen = 10;
 
-struct SDirectoryEntry               //Ä¿Â¼Ïî
+struct SDirectoryEntry               //ç›®å½•é¡¹
 {
 	bool IsInUse;
 	short InodeNum;		
@@ -14,13 +14,13 @@ struct SDirectoryEntry               //Ä¿Â¼Ïî
 struct SDirectory
 {
 	char FileName[g_MaxFileNameLen + 1];
-	SDirectoryEntry FileSet[g_MaxNumFiles];   //¼Ù¶¨Ò»¸öÄ¿Â¼Ö»ÄÜ´æ´¢g_MaxNumFiles¸öÎÄ¼ş	
+	SDirectoryEntry FileSet[g_MaxNumFiles];   //å‡å®šä¸€ä¸ªç›®å½•åªèƒ½å­˜å‚¨g_MaxNumFilesä¸ªæ–‡ä»¶	
 };
 
-bool addFile2Directory(const char* vFileName, short vInodeNum, SDirectory& voDirectory);  //ÔÚÄ¿Â¼ÖĞÌí¼ÓvFileNameÎÄ¼ş,ÎÄ¼ş¶ÔÓ¦µÄINodeÎªvInodeNum
-bool removeFileFromDirectory(const char *vFileName, SDirectory& vioDirectory);            //´ÓÄ¿Â¼ÖĞÒÆ³ıvFileNameÎÄ¼ş
-int  findFileInodeNum(const char* vFileName, const SDirectory& vDirectory);               //²éÕÒvFileNameÎÄ¼şµÄINode±àºÅ
-int  findFileIndex(const char* vFileName, const SDirectory& vDirectory);                  //²éÕÒÎÄ¼şÃûÎªvFileNameµÄÏÂ±ê£¬²»´æÔÚÔò·µ»Ø-1
+bool addFile2Directory(const char* vFileName, short vInodeNum, SDirectory& voDirectory);  //åœ¨ç›®å½•ä¸­æ·»åŠ vFileNameæ–‡ä»¶,æ–‡ä»¶å¯¹åº”çš„INodeä¸ºvInodeNum
+bool removeFileFromDirectory(const char *vFileName, SDirectory& vioDirectory);            //ä»ç›®å½•ä¸­ç§»é™¤vFileNameæ–‡ä»¶
+int  findFileInodeNum(const char* vFileName, const SDirectory& vDirectory);               //æŸ¥æ‰¾vFileNameæ–‡ä»¶çš„INodeç¼–å·
+int  findFileIndex(const char* vFileName, const SDirectory& vDirectory);                  //æŸ¥æ‰¾æ–‡ä»¶åä¸ºvFileNameçš„ä¸‹æ ‡ï¼Œä¸å­˜åœ¨åˆ™è¿”å›-1
 SDirectory createEmptyDirectory();   
 
 #endif

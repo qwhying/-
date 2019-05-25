@@ -17,19 +17,19 @@ void markBitAt(int vBitPosition, SBitMap& vioBitMap)
 }
 
 void clearBitAt(int vBitPosition, SBitMap& vioBitMap)
-{ //½«Î»Ê¾Í¼ÖÐµÚvBitPositionÎ»ÖÃÎª0
-	vioBitMap.pMapData[vBitPosition / g_NumBitsInWord] &= ~1 << (vBitPosition%g_NumBitsInWord);//°´Î»È¡·´ÔÙÓë²Ù×÷
+{ //å°†ä½ç¤ºå›¾ä¸­ç¬¬vBitPositionä½ç½®ä¸º0
+	vioBitMap.pMapData[vBitPosition / g_NumBitsInWord] &= ~1 << (vBitPosition%g_NumBitsInWord);//æŒ‰ä½å–åå†ä¸Žæ“ä½œ
 }
 
 bool isAvailableBitAt(int vBitPosition, const SBitMap& vBitMap)
-{//²âÊÔµÚvBitPositionÎ»ÊÇ·ñÎª0
-	int temp = vBitMap.pMapData[vBitPosition / g_NumBitsInWord] &= ~1 << (vBitPosition%g_NumBitsInWord);//µÚvBitPositionÎ»ÖÃÎª0(ÁÙÊ±ÓÃÓÚÅÐ¶Ï)
-	return temp == vBitMap.pMapData[vBitPosition / g_NumBitsInWord];//ÈôÏàµÈ·µ»Ø1Ôò±íÊ¾È·ÊµÎª0£¬²»ÎªÁã·µ»Ø0
+{//æµ‹è¯•ç¬¬vBitPositionä½æ˜¯å¦ä¸º0
+	int temp = vBitMap.pMapData[vBitPosition / g_NumBitsInWord] &= ~1 << (vBitPosition%g_NumBitsInWord);//ç¬¬vBitPositionä½ç½®ä¸º0(ä¸´æ—¶ç”¨äºŽåˆ¤æ–­)
+	return temp == vBitMap.pMapData[vBitPosition / g_NumBitsInWord];//è‹¥ç›¸ç­‰è¿”å›ž1åˆ™è¡¨ç¤ºç¡®å®žä¸º0ï¼Œä¸ä¸ºé›¶è¿”å›ž0
 }
 
 int countClearBits(const SBitMap& vBitMap)
-{ //Í³¼ÆvBitMapÃ»ÓÐ±»Õ¼ÓÃµÄÎ»Êý£¨Îª1±íÊ¾Õ¼ÓÃ£¬0±íÊ¾Ã»Õ¼ÓÃ£©
-	int count = 0;//¼ÆÊýÆ÷
+{ //ç»Ÿè®¡vBitMapæ²¡æœ‰è¢«å ç”¨çš„ä½æ•°ï¼ˆä¸º1è¡¨ç¤ºå ç”¨ï¼Œ0è¡¨ç¤ºæ²¡å ç”¨ï¼‰
+	int count = 0;//è®¡æ•°å™¨
 	for (int i = 0; i < vBitMap.NumBits; i++)
 	{
 		if (isAvailableBitAt(i, vBitMap))count++;
@@ -38,7 +38,7 @@ int countClearBits(const SBitMap& vBitMap)
 }
 
 int findAndSetAvailableBit(SBitMap& voBitMap)
-{//·µ»ØµÚÒ»¸öÃ»ÓÐ±»Õ¼ÓÃµÄÎ»£¬²¢½«ÆäÖÃ1;Ã»ÓÐÔò·µ»Ø-1
+{//è¿”å›žç¬¬ä¸€ä¸ªæ²¡æœ‰è¢«å ç”¨çš„ä½ï¼Œå¹¶å°†å…¶ç½®1;æ²¡æœ‰åˆ™è¿”å›ž-1
 	for (int i = 0; i < voBitMap.NumBits; i++)
 	{
 		if (isAvailableBitAt(i, voBitMap))
@@ -47,7 +47,7 @@ int findAndSetAvailableBit(SBitMap& voBitMap)
 			return i;
 		}
 	}
-	return -1;//Ã»ÓÐÕÒµ½
+	return -1;//æ²¡æœ‰æ‰¾åˆ°
 }
 
 void printfBitMap(const SBitMap& vBitMap)

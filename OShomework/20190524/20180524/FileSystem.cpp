@@ -9,7 +9,7 @@ SDirectory g_RootDir = createEmptyDirectory();
 bool createFile(const char* vFileName, int vDirInodeNum, char FileType, int vFileSize)
 {
 	if (vDirInodeNum >= g_NumInodes) return false;
-	if (vFileSize > g_MaxFileSize) return false;
+	if (vFileSize > g_MaxFileSize) return false;//文件过大
 
 	SDirectory TempDirectory = loadDirectoryFromDisk(vDirInodeNum);
 
@@ -20,6 +20,7 @@ bool createFile(const char* vFileName, int vDirInodeNum, char FileType, int vFil
 		SBitMap InodeBitMap; 
 		createEmptyBitMap(InodeBitMap, g_NumInodes);
 		memcpy(InodeBitMap.pMapData, g_Disk+g_BlockBitMapSize, g_InodeBitMapSize);            //从虚拟硬盘中读取Inode位示图
+		                 //位示图在硬盘中g_Disk+g_BlockBitMapSize表示跳过物理快位示图定位到Inode位示图，将地址赋值给指针PMapData
 
 		int InodeIndex = findAndSetAvailableBit(InodeBitMap);
 		if (InodeIndex == -1) IsSuccess = false;
@@ -60,10 +61,31 @@ bool removeFile(const char* vFileName, int vDirInodeNum)
 	SDirectory TempDirectory = loadDirectoryFromDisk(vDirInodeNum);
 
 	//...       从目录中找到文件对应的Inode编号，根据Inode编号读出Inode数据，完成文件的删除
-	
-	removeFileFromDirectory(vFileName, TempDirectory);
-	saveDirectory2Disk(vDirInodeNum, TempDirectory);                          //将目录内容重新写回虚拟硬盘
-	return true;
+    bool IsSuccess = true;
+	int InodeNum=findFileInodeNum(vFileName,TempDirectory);
+	if(InodeNum==-1) IsSuccess=false;
+	else
+	{
+		SBitMap InodeBitMap;
+		createEmptyBitMap(InodeBitMap, g_NumInodes);
+        memcpy(InodeBitMap.pMapData, g_Disk+g_BlockBitMapSize, g_InodeBitMapSize); //从虚拟硬盘中读取Inode位示图
+
+        SInode TempInode=loadInodeFromDisk(InodeNum);
+		clearBitAt(InodeNum,InodeBitMap);
+		if(TempInode.FileType=='d')//如果是目录,将目录中所有子文件删除
+		{
+			SDirectory tempDirectory=loadDirectoryFromDisk(InodeNum);
+			for(short i=0;i<g_MaxNumFiles;i++)
+			{
+				removeFile(tempDirectory.FileSet[i].FileName,InodeNum);
+			}
+		}
+		
+	    removeFileFromDirectory(vFileName, TempDirectory);
+	    saveDirectory2Disk(vDirInodeNum, TempDirectory);                          //将目录内容重新写回虚拟硬盘
+	    return true;
+	}
+	return IsSuccess;
 }
 
 SDirectory loadDirectoryFromDisk(int vDirInodeNum)
