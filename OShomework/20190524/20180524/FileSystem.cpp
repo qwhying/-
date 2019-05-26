@@ -45,7 +45,7 @@ bool createFile(const char* vFileName, int vDirInodeNum, char FileType, int vFil
 				if (FileType == 'd')
 				{
 					SDirectory SubDir = createEmptyDirectory();
-					strncpy(SubDir.FileName, vFileName, g_MaxFileNameLen); 
+					strncpy_s(SubDir.FileName, vFileName, g_MaxFileNameLen); 
 					saveDirectory2Disk(InodeIndex, SubDir);
 				}
 			}
@@ -112,7 +112,7 @@ void formatDisk()
 	createEmptyBitMap(DataBlockBitMap, g_NumBlocks);                                   //创建数据块位示图
 
 	SDirectory Directory = createEmptyDirectory();                                     //创建根目录
-	strcpy(Directory.FileName, "/");
+	strcpy_s(Directory.FileName, "/");
 	SInode DirInode;
 	DirInode.FileType  = 'd';
 	allocateDisk(DirInode, sizeof(SDirectory), DataBlockBitMap);                       //分配根目录数据块

@@ -18,12 +18,12 @@ void markBitAt(int vBitPosition, SBitMap& vioBitMap)
 
 void clearBitAt(int vBitPosition, SBitMap& vioBitMap)
 { //将位示图中第vBitPosition位置为0
-	vioBitMap.pMapData[vBitPosition / g_NumBitsInWord] &= ~1 << (vBitPosition%g_NumBitsInWord);//按位取反再与操作
+	vioBitMap.pMapData[vBitPosition / g_NumBitsInWord] &= ~(1 << (vBitPosition%g_NumBitsInWord));//按位取反再与操作
 }
 
 bool isAvailableBitAt(int vBitPosition, const SBitMap& vBitMap)
 {//测试第vBitPosition位是否为0
-	int temp = vBitMap.pMapData[vBitPosition / g_NumBitsInWord] &= ~1 << (vBitPosition%g_NumBitsInWord);//第vBitPosition位置为0(临时用于判断)
+	int temp = (vBitMap.pMapData[vBitPosition / g_NumBitsInWord]) & (~(1 << (vBitPosition%g_NumBitsInWord)));//第vBitPosition位置为0(临时用于判断)
 	return temp == vBitMap.pMapData[vBitPosition / g_NumBitsInWord];//若相等返回1则表示确实为0，不为零返回0
 }
 
