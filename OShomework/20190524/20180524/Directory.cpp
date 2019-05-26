@@ -40,7 +40,7 @@ bool addFile2Directory(const char* vFileName, short vInodeNum, SDirectory& voDir
 	{
 		if (!voDirectory.FileSet[i].IsInUse)
 		{
-			strcpy_s(voDirectory.FileSet[i].FileName, vFileName);//拷贝文件名
+			strcpy(voDirectory.FileSet[i].FileName, vFileName);//拷贝文件名
 			voDirectory.FileSet[i].InodeNum = vInodeNum;//inode编码
 			voDirectory.FileSet[i].IsInUse = true;//在使用
 			return true;

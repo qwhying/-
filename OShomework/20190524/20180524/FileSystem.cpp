@@ -45,7 +45,7 @@ bool createFile(const char* vFileName, int vDirInodeNum, char FileType, int vFil
 				if (FileType == 'd')
 				{
 					SDirectory SubDir = createEmptyDirectory();
-					strncpy_s(SubDir.FileName, vFileName, g_MaxFileNameLen); 
+					strncpy(SubDir.FileName, vFileName, g_MaxFileNameLen); 
 					saveDirectory2Disk(InodeIndex, SubDir);
 				}
 			}
@@ -71,7 +71,15 @@ bool removeFile(const char* vFileName, int vDirInodeNum)
         memcpy(InodeBitMap.pMapData, g_Disk+g_BlockBitMapSize, g_InodeBitMapSize); //从虚拟硬盘中读取Inode位示图
 
         SInode TempInode=loadInodeFromDisk(InodeNum);
+		SBitMap DataBlockBitMap;
+		createEmptyBitMap(DataBlockBitMap, g_NumBlocks);
+		memcpy(DataBlockBitMap.pMapData, g_Disk, g_BlockBitMapSize);
+
+		deallocateDisk(TempInode, DataBlockBitMap);
 		clearBitAt(InodeNum,InodeBitMap);
+		memset(g_Disk + g_BlockBitMapSize + g_InodeBitMapSize + sizeof(SInode)*InodeNum, 0, sizeof(SInode));
+		memcpy(g_Disk, DataBlockBitMap.pMapData, g_BlockBitMapSize);                 //将数据块位示图写回虚拟硬盘
+		memcpy(g_Disk + g_BlockBitMapSize, InodeBitMap.pMapData, g_InodeBitMapSize);   //将Inode位示图写回虚拟硬盘
 		if(TempInode.FileType=='d')//如果是目录,将目录中所有子文件删除
 		{
 			SDirectory tempDirectory=loadDirectoryFromDisk(InodeNum);
@@ -112,7 +120,7 @@ void formatDisk()
 	createEmptyBitMap(DataBlockBitMap, g_NumBlocks);                                   //创建数据块位示图
 
 	SDirectory Directory = createEmptyDirectory();                                     //创建根目录
-	strcpy_s(Directory.FileName, "/");
+	strcpy(Directory.FileName, "/");
 	SInode DirInode;
 	DirInode.FileType  = 'd';
 	allocateDisk(DirInode, sizeof(SDirectory), DataBlockBitMap);                       //分配根目录数据块
