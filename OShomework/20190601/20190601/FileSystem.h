@@ -5,10 +5,10 @@
 #include "BitMap.h"
 #include "Directory.h"
 
-const short g_BlockSize   = 64;
+const short g_BlockSize   = 64;           //物理快的大小
 const short g_NumBlocks   = 128;
-const short g_NumInodes   = 32;
-const short g_MaxNumBlock = 13;
+const short g_NumInodes   = 32;         //Inode表中Inode的个数
+const short g_MaxNumBlock = 13;         //一个文件最多可分配的块数
 const short g_MaxFileSize = g_MaxNumBlock * g_BlockSize;
 
 const int g_InodeBitMapSize = ((g_NumInodes+g_NumBitsInWord-1) / g_NumBitsInWord) * sizeof(int);
@@ -44,5 +44,10 @@ SInode loadInodeFromDisk(int vInodeNum);
 SDirectory loadDirectoryFromDisk(int vDirInodeNum);
 void saveDirectory2Disk(int vDirInodeNum, const SDirectory& vDirectory);
 void formatDisk();
+
+SOpenFile* openFile(const char* vFileName);
+
+int readDataFromFile(void *vDestination, int vNumBytes, SOpenFile& vioFile);   //读文件，返回实际读入的字符数
+int writeData2File(const void *vSrc, int vNumBytes, SOpenFile& vioFile);       //写文件，返回实际写入的字符数
 
 #endif
